@@ -1,5 +1,8 @@
 package com.hendisantika.shoppingchart.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : shopping-chart
