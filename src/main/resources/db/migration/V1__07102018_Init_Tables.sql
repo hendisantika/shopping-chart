@@ -1,5 +1,3 @@
-create database shoppingChart if not exists ;
-
 -- Create table
 create table ACCOUNTS
 (
@@ -74,16 +72,16 @@ values ('manager1', 1,
 
 ----------------
 insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S001', 'Core Java', 100, sysdate);
+values ('S001', 'Core Java', 100, CURRENT_TIMESTAMP);
 
 insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S002', 'Spring for Beginners', 50, sysdate);
+values ('S002', 'Spring for Beginners', 50, CURRENT_TIMESTAMP );
 
 insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S003', 'Swift for Beginners', 120, sysdate);
+values ('S003', 'Swift for Beginners', 120, CURRENT_TIMESTAMP);
 
 insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S004', 'Oracle XML Parser', 120, sysdate);
+values ('S004', 'Oracle XML Parser', 120, CURRENT_TIMESTAMP);
 
 insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S005', 'CSharp Tutorial for Beginers', 110, sysdate);
+values ('S005', 'CSharp Tutorial for Beginers', 110, CURRENT_TIMESTAMP);
