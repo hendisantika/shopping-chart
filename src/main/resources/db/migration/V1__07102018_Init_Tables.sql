@@ -1,4 +1,4 @@
--- Create table
+-- # Create table
 create table ACCOUNTS
 (
   USER_NAME VARCHAR(20) not null,
@@ -9,7 +9,7 @@ create table ACCOUNTS
 
 alter table ACCOUNTS
   add primary key (USER_NAME) ;
----------------------------------------
+-- ---------------------------------------
 
 create table PRODUCTS
 (
@@ -22,7 +22,7 @@ create table PRODUCTS
 
 alter table PRODUCTS
   add primary key (CODE) ;
----------------------------------------
+-- -------------------------------------
 -- Create table
 create table ORDERS
 (
@@ -39,7 +39,7 @@ alter table ORDERS
   add primary key (ID) ;
 alter table ORDERS
   add constraint ORDER_UK unique (ORDER_NUM) ;
----------------------------------------
+-- -------------------------------------
 
 -- Create table
 create table ORDER_DETAILS
@@ -60,28 +60,3 @@ alter table ORDER_DETAILS
 alter table ORDER_DETAILS
   add constraint ORDER_DETAIL_PROD_FK foreign key (PRODUCT_ID)
   references PRODUCTS (CODE);
-
----------------------------------------
-insert into Accounts (USER_NAME, ACTIVE, ENCRYTED_PASSWORD, USER_ROLE)
-values ('employee1', 1,
-'$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 'ROLE_EMPLOYEE');
-
-insert into Accounts (USER_NAME, ACTIVE, ENCRYTED_PASSWORD, USER_ROLE)
-values ('manager1', 1,
-'$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 'ROLE_MANAGER');
-
-----------------
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S001', 'Core Java', 100, CURRENT_TIMESTAMP);
-
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S002', 'Spring for Beginners', 50, CURRENT_TIMESTAMP );
-
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S003', 'Swift for Beginners', 120, CURRENT_TIMESTAMP);
-
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S004', 'Oracle XML Parser', 120, CURRENT_TIMESTAMP);
-
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S005', 'CSharp Tutorial for Beginers', 110, CURRENT_TIMESTAMP);
