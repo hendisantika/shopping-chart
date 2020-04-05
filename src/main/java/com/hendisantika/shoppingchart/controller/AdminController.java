@@ -8,6 +8,7 @@ import com.hendisantika.shoppingchart.model.OrderDetailInfo;
 import com.hendisantika.shoppingchart.model.OrderInfo;
 import com.hendisantika.shoppingchart.pagination.PaginationResult;
 import com.hendisantika.shoppingchart.validator.ProductFormValidator;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,10 +19,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -37,6 +38,7 @@ import java.util.List;
  * Time: 04.28
  * To change this template use File | Settings | File Templates.
  */
+@Log4j2
 @Controller
 @Transactional
 public class AdminController {
@@ -56,7 +58,7 @@ public class AdminController {
         if (target == null) {
             return;
         }
-        System.out.println("Target=" + target);
+        log.info("Target=" + target);
 
         if (target.getClass() == ProductForm.class) {
             dataBinder.setValidator(productFormValidator);
@@ -64,25 +66,25 @@ public class AdminController {
     }
 
     // GET: Show Login Page
-    @RequestMapping(value = {"/admin/login"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/login"})
     public String login(Model model) {
 
         return "login";
     }
 
-    @RequestMapping(value = {"/admin/accountInfo"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/accountInfo"})
     public String accountInfo(Model model) {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(userDetails.getPassword());
-        System.out.println(userDetails.getUsername());
-        System.out.println(userDetails.isEnabled());
+        log.info(userDetails.getPassword());
+        log.info(userDetails.getUsername());
+        log.info(userDetails.isEnabled());
 
         model.addAttribute("userDetails", userDetails);
         return "accountInfo";
     }
 
-    @RequestMapping(value = {"/admin/orderList"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/orderList"})
     public String orderList(Model model, //
                             @RequestParam(value = "page", defaultValue = "1") String pageStr) {
         int page = 1;
@@ -101,7 +103,7 @@ public class AdminController {
     }
 
     // GET: Show product.
-    @RequestMapping(value = {"/admin/product"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/product"})
     public String product(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
         ProductForm productForm = null;
 
@@ -120,7 +122,7 @@ public class AdminController {
     }
 
     // POST: Save product
-    @RequestMapping(value = {"/admin/product"}, method = RequestMethod.POST)
+    @PostMapping(value = {"/admin/product"})
     public String productSave(Model model, //
                               @ModelAttribute("productForm") @Validated ProductForm productForm, //
                               BindingResult result, //
@@ -142,7 +144,7 @@ public class AdminController {
         return "redirect:/productList";
     }
 
-    @RequestMapping(value = {"/admin/order"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/admin/order"})
     public String orderView(Model model, @RequestParam("orderId") String orderId) {
         OrderInfo orderInfo = null;
         if (orderId != null) {
