@@ -10,6 +10,7 @@ import com.hendisantika.shoppingchart.model.ProductInfo;
 import com.hendisantika.shoppingchart.pagination.PaginationResult;
 import com.hendisantika.shoppingchart.utils.Utils;
 import com.hendisantika.shoppingchart.validator.CustomerFormValidator;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,6 +39,7 @@ import java.io.IOException;
  * Time: 04.27
  * To change this template use File | Settings | File Templates.
  */
+@Log4j2
 @Controller
 @Transactional
 public class MainController {
@@ -57,7 +59,7 @@ public class MainController {
         if (target == null) {
             return;
         }
-        System.out.println("Target=" + target);
+        log.info("Target= {}", target);
 
         // Case update quantity in cart
         // (@ModelAttribute("cartForm") @Validated CartInfo cartForm)
@@ -73,18 +75,18 @@ public class MainController {
 
     }
 
-    @RequestMapping("/403")
+    @GetMapping("/403")
     public String accessDenied() {
         return "/403";
     }
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String home() {
         return "index";
     }
 
     // Product List
-    @RequestMapping({"/productList"})
+    @GetMapping({"/productList"})
     public String listProductHandler(Model model, //
                                      @RequestParam(value = "name", defaultValue = "") String likeName,
                                      @RequestParam(value = "page", defaultValue = "1") int page) {
@@ -98,7 +100,7 @@ public class MainController {
         return "productList";
     }
 
-    @RequestMapping({"/buyProduct"})
+    @GetMapping({"/buyProduct"})
     public String listProductHandler(HttpServletRequest request, Model model, //
                                      @RequestParam(value = "code", defaultValue = "") String code) {
 
@@ -119,8 +121,8 @@ public class MainController {
         return "redirect:/shoppingCart";
     }
 
-    @RequestMapping({"/shoppingCartRemoveProduct"})
-    public String removeProductHandler(HttpServletRequest request, Model model, //
+    @GetMapping({"/shoppingCartRemoveProduct"})
+    public String removeProductHandler(HttpServletRequest request,
                                        @RequestParam(value = "code", defaultValue = "") String code) {
         Product product = null;
         if (code != null && code.length() > 0) {
@@ -140,9 +142,8 @@ public class MainController {
     }
 
     // POST: Update quantity for product in cart
-    @RequestMapping(value = {"/shoppingCart"}, method = RequestMethod.POST)
+    @PostMapping(value = {"/shoppingCart"})
     public String shoppingCartUpdateQty(HttpServletRequest request, //
-                                        Model model, //
                                         @ModelAttribute("cartForm") CartInfo cartForm) {
 
         CartInfo cartInfo = Utils.getCartInSession(request);
@@ -152,7 +153,7 @@ public class MainController {
     }
 
     // GET: Show cart.
-    @RequestMapping(value = {"/shoppingCart"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/shoppingCart"})
     public String shoppingCartHandler(HttpServletRequest request, Model model) {
         CartInfo myCart = Utils.getCartInSession(request);
 
@@ -161,7 +162,7 @@ public class MainController {
     }
 
     // GET: Enter customer information.
-    @RequestMapping(value = {"/shoppingCartCustomer"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/shoppingCartCustomer"})
     public String shoppingCartCustomerForm(HttpServletRequest request, Model model) {
 
         CartInfo cartInfo = Utils.getCartInSession(request);
@@ -180,9 +181,8 @@ public class MainController {
     }
 
     // POST: Save customer information.
-    @RequestMapping(value = {"/shoppingCartCustomer"}, method = RequestMethod.POST)
+    @PostMapping(value = {"/shoppingCartCustomer"})
     public String shoppingCartCustomerSave(HttpServletRequest request, //
-                                           Model model, //
                                            @ModelAttribute("customerForm") @Validated CustomerForm customerForm, //
                                            BindingResult result, //
                                            final RedirectAttributes redirectAttributes) {
@@ -202,7 +202,7 @@ public class MainController {
     }
 
     // GET: Show information to confirm.
-    @RequestMapping(value = {"/shoppingCartConfirmation"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/shoppingCartConfirmation"})
     public String shoppingCartConfirmationReview(HttpServletRequest request, Model model) {
         CartInfo cartInfo = Utils.getCartInSession(request);
 
@@ -219,8 +219,7 @@ public class MainController {
     }
 
     // POST: Submit Cart (Save)
-    @RequestMapping(value = {"/shoppingCartConfirmation"}, method = RequestMethod.POST)
-
+    @PostMapping(value = {"/shoppingCartConfirmation"})
     public String shoppingCartConfirmationSave(HttpServletRequest request, Model model) {
         CartInfo cartInfo = Utils.getCartInSession(request);
 
@@ -247,7 +246,7 @@ public class MainController {
         return "redirect:/shoppingCartFinalize";
     }
 
-    @RequestMapping(value = {"/shoppingCartFinalize"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/shoppingCartFinalize"})
     public String shoppingCartFinalize(HttpServletRequest request, Model model) {
 
         CartInfo lastOrderedCart = Utils.getLastOrderedCartInSession(request);
@@ -259,7 +258,7 @@ public class MainController {
         return "shoppingCartFinalize";
     }
 
-    @RequestMapping(value = {"/productImage"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/productImage"})
     public void productImage(HttpServletRequest request, HttpServletResponse response, Model model,
                              @RequestParam("code") String code) throws IOException {
         Product product = null;
