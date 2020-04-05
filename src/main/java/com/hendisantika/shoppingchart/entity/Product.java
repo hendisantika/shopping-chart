@@ -1,5 +1,9 @@
 package com.hendisantika.shoppingchart.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,6 +26,9 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "Products")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product implements Serializable {
 
     private static final long serialVersionUID = -1000119078147252957L;
@@ -43,48 +50,5 @@ public class Product implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "Create_Date", nullable = false)
     private Date createDate;
-
-    public Product() {
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
 
 }

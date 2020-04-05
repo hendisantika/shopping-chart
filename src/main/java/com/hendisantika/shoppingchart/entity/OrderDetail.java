@@ -1,5 +1,9 @@
 package com.hendisantika.shoppingchart.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,6 +26,9 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "Order_Details")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class OrderDetail implements Serializable {
 
     private static final long serialVersionUID = 7550745928843183535L;
@@ -40,61 +47,13 @@ public class OrderDetail implements Serializable {
             foreignKey = @ForeignKey(name = "ORDER_DETAIL_PROD_FK"))
     private Product product;
 
-    @Column(name = "Quanity", nullable = false)
-    private int quanity;
+    @Column(name = "Quantity", nullable = false)
+    private int quantity;
 
     @Column(name = "Price", nullable = false)
     private double price;
 
     @Column(name = "Amount", nullable = false)
     private double amount;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public int getQuanity() {
-        return quanity;
-    }
-
-    public void setQuanity(int quanity) {
-        this.quanity = quanity;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
 
 }

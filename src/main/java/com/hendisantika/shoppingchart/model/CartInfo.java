@@ -1,5 +1,9 @@
 package com.hendisantika.shoppingchart.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,34 +17,13 @@ import java.util.List;
  * Time: 06.53
  * To change this template use File | Settings | File Templates.
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CartInfo {
     private final List<CartLineInfo> cartLines = new ArrayList<CartLineInfo>();
     private int orderNum;
     private CustomerInfo customerInfo;
-
-    public CartInfo() {
-
-    }
-
-    public int getOrderNum() {
-        return orderNum;
-    }
-
-    public void setOrderNum(int orderNum) {
-        this.orderNum = orderNum;
-    }
-
-    public CustomerInfo getCustomerInfo() {
-        return customerInfo;
-    }
-
-    public void setCustomerInfo(CustomerInfo customerInfo) {
-        this.customerInfo = customerInfo;
-    }
-
-    public List<CartLineInfo> getCartLines() {
-        return this.cartLines;
-    }
 
     private CartLineInfo findLineByCode(String code) {
         for (CartLineInfo line : this.cartLines) {

@@ -108,7 +108,7 @@ public class ProductDAO {
         if (likeName != null && likeName.length() > 0) {
             query.setParameter("likeName", "%" + likeName.toLowerCase() + "%");
         }
-        return new PaginationResult<ProductInfo>(query, page, maxResult, maxNavigationPage);
+        return new PaginationResult<>(query, page, maxResult, maxNavigationPage);
     }
 
     public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage) {

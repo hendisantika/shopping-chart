@@ -1,5 +1,9 @@
 package com.hendisantika.shoppingchart.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -18,6 +22,9 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "Accounts")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account implements Serializable {
 
     public static final String ROLE_MANAGER = "MANAGER";
@@ -35,42 +42,4 @@ public class Account implements Serializable {
 
     @Column(name = "User_Role", length = 20, nullable = false)
     private String userRole;
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getEncrytedPassword() {
-        return encrytedPassword;
-    }
-
-    public void setEncrytedPassword(String encrytedPassword) {
-        this.encrytedPassword = encrytedPassword;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public String getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + this.userName + "," + this.encrytedPassword + "," + this.userRole + "]";
-    }
-
 }

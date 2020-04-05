@@ -79,7 +79,7 @@ public class OrderDAO {
             detail.setOrder(order);
             detail.setAmount(line.getAmount());
             detail.setPrice(line.getProductInfo().getPrice());
-            detail.setQuanity(line.getQuantity());
+            detail.setQuantity(line.getQuantity());
 
             String code = line.getProductInfo().getCode();
             Product product = this.productDAO.findProduct(code);
@@ -104,7 +104,7 @@ public class OrderDAO {
 
         Session session = this.sessionFactory.getCurrentSession();
         Query<OrderInfo> query = session.createQuery(sql, OrderInfo.class);
-        return new PaginationResult<OrderInfo>(query, page, maxResult, maxNavigationPage);
+        return new PaginationResult<>(query, page, maxResult, maxNavigationPage);
     }
 
     public Order findOrder(String orderId) {
@@ -124,7 +124,7 @@ public class OrderDAO {
 
     public List<OrderDetailInfo> listOrderDetailInfos(String orderId) {
         String sql = "Select new " + OrderDetailInfo.class.getName() //
-                + "(d.id, d.product.code, d.product.name , d.quanity,d.price,d.amount) "//
+                + "(d.id, d.product.code, d.product.name , d.quantity,d.price,d.amount) "//
                 + " from " + OrderDetail.class.getName() + " d "//
                 + " where d.order.id = :orderId ";
 

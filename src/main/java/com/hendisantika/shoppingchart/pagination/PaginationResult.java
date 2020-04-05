@@ -82,7 +82,7 @@ public class PaginationResult<E> {
 
     private void calcNavigationPages() {
 
-        this.navigationPages = new ArrayList<Integer>();
+        this.navigationPages = new ArrayList<>();
 
         int current = this.currentPage > this.totalPages ? this.totalPages : this.currentPage;
 
