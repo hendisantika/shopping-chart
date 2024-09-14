@@ -1,9 +1,9 @@
 package com.hendisantika.shoppingchart.dao;
 
 import com.hendisantika.shoppingchart.entity.Account;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @Repository
+@RequiredArgsConstructor
 public class AccountDAO {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     public Account findAccount(String userName) {
         Session session = this.sessionFactory.getCurrentSession();

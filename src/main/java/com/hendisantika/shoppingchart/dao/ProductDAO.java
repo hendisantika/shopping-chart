@@ -5,10 +5,10 @@ import com.hendisantika.shoppingchart.form.ProductForm;
 import com.hendisantika.shoppingchart.model.ProductInfo;
 import com.hendisantika.shoppingchart.pagination.PaginationResult;
 import jakarta.persistence.NoResultException;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,10 +28,10 @@ import java.util.Date;
  */
 @Transactional
 @Repository
+@RequiredArgsConstructor
 public class ProductDAO {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
     public Product findProduct(String code) {
         try {
@@ -115,4 +115,16 @@ public class ProductDAO {
         return queryProducts(page, maxResult, maxNavigationPage, null);
     }
 
+    public Product deleteProduct(String code) {
+        try {
+            String sql = "delete from " + Product.class.getName() + " e Where e.code =:code ";
+
+            Session session = this.sessionFactory.getCurrentSession();
+            Query<Product> query = session.createQuery(sql, Product.class);
+            query.setParameter("code", code);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 }

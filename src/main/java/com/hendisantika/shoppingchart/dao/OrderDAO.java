@@ -9,10 +9,10 @@ import com.hendisantika.shoppingchart.model.CustomerInfo;
 import com.hendisantika.shoppingchart.model.OrderDetailInfo;
 import com.hendisantika.shoppingchart.model.OrderInfo;
 import com.hendisantika.shoppingchart.pagination.PaginationResult;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,13 +32,12 @@ import java.util.UUID;
  */
 @Transactional
 @Repository
+@RequiredArgsConstructor
 public class OrderDAO {
 
-    @Autowired
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
 
-    @Autowired
-    private ProductDAO productDAO;
+    private final ProductDAO productDAO;
 
     private int getMaxOrderNum() {
         String sql = "Select max(o.orderNum) from " + Order.class.getName() + " o ";
