@@ -1,8 +1,7 @@
 package com.hendisantika.shoppingchart.utils;
 
 import com.hendisantika.shoppingchart.model.CartInfo;
-
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Created by IntelliJ IDEA.

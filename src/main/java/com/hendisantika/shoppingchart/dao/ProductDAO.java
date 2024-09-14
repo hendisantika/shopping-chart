@@ -4,6 +4,7 @@ import com.hendisantika.shoppingchart.entity.Product;
 import com.hendisantika.shoppingchart.form.ProductForm;
 import com.hendisantika.shoppingchart.model.ProductInfo;
 import com.hendisantika.shoppingchart.pagination.PaginationResult;
+import jakarta.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.NoResultException;
 import java.io.IOException;
 import java.util.Date;
 

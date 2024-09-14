@@ -18,11 +18,11 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class PaginationResult<E> {
-    private int totalRecords;
-    private int currentPage;
-    private List<E> list;
-    private int maxResult;
-    private int totalPages;
+    private final int totalRecords;
+    private final int currentPage;
+    private final List<E> list;
+    private final int maxResult;
+    private final int totalPages;
 
     private int maxNavigationPage;
 
@@ -47,7 +47,7 @@ public class PaginationResult<E> {
 
             if (hasResult) {
                 do {
-                    E record = (E) resultScroll.get(0);
+                    E record = (E) resultScroll.get();
                     results.add(record);
                 } while (resultScroll.next()//
                         && resultScroll.getRowNumber() >= fromRecordIndex

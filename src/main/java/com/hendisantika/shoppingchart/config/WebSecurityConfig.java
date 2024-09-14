@@ -6,8 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,10 +22,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * To change this template use File | Settings | File Templates.
  */
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -40,38 +42,43 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable();
+        http
+                .csrf(AbstractHttpConfigurer::disable)
 
         // Requires login with role ROLE_EMPLOYEE or ROLE_MANAGER.
         // If not, it will redirect to /admin/login.
-        http.authorizeRequests().antMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo")//
-                .access("hasAnyRole('ROLE_EMPLOYEE', 'ROLE_MANAGER')");
+                .authorizeHttpRequests((req) -> req
+                        .requestMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo").permitAll()
+                        .requestMatchers("/admin/product").hasRole("ROLE_MANAGER")
+                )
 
-        // Pages only for MANAGER
-        http.authorizeRequests().antMatchers("/admin/product").access("hasRole('ROLE_MANAGER')");
 
         // When user login, role XX.
         // But access to the page requires the YY role,
         // An AccessDeniedException will be thrown.
-        http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
+//        .authorizeRequests().and().exceptionHandling().accessDeniedPage("/403")
 
         // Configuration for Login Form.
-        http.authorizeRequests().and().formLogin()//
+//                // Configuration for the Logout page.
+//                // (After logout, go to home page)
+//                .and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/");
 
-                //
+                .formLogin(formLogin -> formLogin
                 .loginProcessingUrl("/j_spring_security_check") // Submit URL
                 .loginPage("/admin/login")//
                 .defaultSuccessUrl("/admin/accountInfo")//
                 .failureUrl("/admin/login?error=true")//
                 .usernameParameter("userName")//
                 .passwordParameter("password")
-
-                // Configuration for the Logout page.
-                // (After logout, go to home page)
-                .and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/");
+                )
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/login?logout")
+                );
+        return http.build();
 
     }
 }
