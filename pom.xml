@@ -123,8 +123,31 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mssqlserver</artifactId>
+            <version>1.20.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>oracle-free</artifactId>
+            <version>1.20.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
-
     <repositories>
 
         <!-- Repository for ORACLE JDBC Driver -->
@@ -132,7 +155,6 @@
             <id>codelds</id>
             <url>https://code.lds.org/nexus/content/groups/main-repo</url>
         </repository>
-
     </repositories>
 
     <build>
