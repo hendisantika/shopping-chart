@@ -41,8 +41,10 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
+    # Optional: run Testcontainers on Testcontainers Cloud instead of the runner's local Docker.
+    # Enable by setting repository variable USE_TC_CLOUD=true and a valid TC_CLOUD_TOKEN secret.
     - name: Setup Testcontainers Cloud Client
-      if: ${{ github.actor != 'dependabot[bot]' }}
+      if: ${{ vars.USE_TC_CLOUD == 'true' && github.actor != 'dependabot[bot]' }}
       uses: atomicjar/testcontainers-cloud-setup-action@v1
       with:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
