@@ -9,7 +9,7 @@ import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +25,7 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "Products")
+@Table(name = "PRODUCTS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

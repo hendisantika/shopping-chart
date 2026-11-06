@@ -115,16 +115,12 @@ public class ProductDAO {
         return queryProducts(page, maxResult, maxNavigationPage, null);
     }
 
-    public Product deleteProduct(String code) {
-        try {
-            String sql = "delete from " + Product.class.getName() + " e Where e.code =:code ";
+    public int deleteProduct(String code) {
+        String sql = "delete from " + Product.class.getName() + " e Where e.code =:code ";
 
-            Session session = this.sessionFactory.getCurrentSession();
-            Query<Product> query = session.createQuery(sql, Product.class);
-            query.setParameter("code", code);
-            return query.getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+        Session session = this.sessionFactory.getCurrentSession();
+        return session.createMutationQuery(sql)
+                .setParameter("code", code)
+                .executeUpdate();
     }
 }

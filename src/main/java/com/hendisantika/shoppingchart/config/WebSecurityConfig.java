@@ -1,15 +1,12 @@
 package com.hendisantika.shoppingchart.config;
 
-import com.hendisantika.shoppingchart.service.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,22 +21,13 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class WebSecurityConfig {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
+    /**
+     * UserDetailsServiceImpl (a @Service bean) together with this PasswordEncoder bean
+     * are picked up automatically by Spring Security to build the DaoAuthenticationProvider.
+     */
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder;
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-        // Setting Service to find User in the database.
-        // And Setting PassswordEncoder
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-
+    public static BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -52,7 +40,7 @@ public class WebSecurityConfig {
         // If not, it will redirect to /admin/login.
                 .authorizeHttpRequests((req) -> req
                         .requestMatchers("/admin/orderList", "/admin/order", "/admin/accountInfo").permitAll()
-                        .requestMatchers("/admin/product").hasRole("ROLE_MANAGER")
+                        .requestMatchers("/admin/product").hasRole("MANAGER")
                 )
 
 
@@ -75,7 +63,7 @@ public class WebSecurityConfig {
                 .passwordParameter("password")
                 )
                 .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutRequestMatcher(PathPatternRequestMatcher.withDefaults().matcher("/logout"))
                         .logoutSuccessUrl("/login?logout")
                 );
         return http.build();

@@ -25,7 +25,7 @@ import java.io.Serializable;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@Table(name = "Order_Details")
+@Table(name = "ORDER_DETAILS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
