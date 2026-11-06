@@ -20,8 +20,8 @@ updates:
       - dependencies
       - java
     commit-message:
-      prefix: "build(deps)"
-      prefix-development: "build(deps-dev)"
+      prefix: "build"
+      prefix-development: "build"
       include: scope
     rebase-strategy: auto
     # Group related libraries so they are bumped together in a single PR
@@ -74,7 +74,7 @@ updates:
       - dependencies
       - github_actions
     commit-message:
-      prefix: "ci(deps)"
+      prefix: "ci"
       include: scope
     groups:
       github-actions:
